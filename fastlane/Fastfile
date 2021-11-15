@@ -1,0 +1,13 @@
+lane :test_dsyms do
+  upload_symbols_to_datadog(
+    api_key: "some-api-key",
+    dsym_path: "./assets/"
+  )
+end
+
+lane :test_zip do
+  upload_symbols_to_datadog(
+    api_key: "some-api-key",
+    dsym_path: "./assets/Themoji.dSYM.zip"
+  )
+end
