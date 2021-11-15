@@ -1,0 +1,11 @@
+Component,Origin,License,Copyright
+gemspec, bundler, MIT, Portions copyright (c) 2010-2019 André Arko Portions copyright (c) 2009 Engine Yard
+gemspec, fastlane, MIT, Copyright (c) 2015-2021 The Fastlane Authors
+gemspec, pry, MIT, Copyright (c) 2018 John Mair (banisterfiend)
+gemspec, rake, MIT, Copyright (c) Jim Weirich
+gemspec, rspec, MIT, Copyright © 2009 Chad Humphries David Chelimsky Copyright © 2006 David Chelimsky The RSpec Development Team Copyright © 2005 Steven Baker
+gemspec, rspec_junit_formatter, MIT, Copyright (c) 2011-2018 Samuel Cochran
+gemspec, rubocop, MIT, Copyright (c) 2012-21 Bozhidar Batsov
+gemspec, rubocop-performance, MIT, Copyright (c) 2012-21 Bozhidar Batsov
+gemspec, rubocop-require_tools, MIT, Copyright (c) 2012-21 Bozhidar Batsov
+gemspec, simplecov, MIT, Copyright (c) 2010-2017 Christoph Olszowka
