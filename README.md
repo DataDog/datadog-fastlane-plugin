@@ -14,9 +14,9 @@ fastlane add_plugin datadog
 
 Datadog plugin helps you uploading dSYM files to Datadog in order to symbolicate crash reports.
 
-When used with download_dsyms action, no need to specify dsym_path parameter.
+When used with `download_dsyms` action, no need to specify `dsym_path` parameter.
 If you are sending your crashes to Datadog, they will appear without symbol names. You also need to provide dSYM files to symbolicate your crash reports.
-This action is a wrapper around datadog-ci npm package, for more info: https://github.com/DataDog/datadog-ci/blob/master/src/commands/dsyms/README.md
+This action is a wrapper around `datadog-ci` npm package, for more info: https://github.com/DataDog/datadog-ci/blob/master/src/commands/dsyms/README.md
 
 ## Example
 
