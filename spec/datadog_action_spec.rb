@@ -15,7 +15,7 @@ describe Fastlane do
         Fastlane::FastFile.new.parse("lane :test do
           upload_symbols_to_datadog(
           api_key: '#{api_key}',
-          dsym_path: '#{dsym_path}',
+          dsym_paths: '#{dsym_path}',
           dry_run: true)
         end").runner.execute(:test)
       end
@@ -34,8 +34,36 @@ describe Fastlane do
         Fastlane::FastFile.new.parse("lane :test do
           upload_symbols_to_datadog(
           api_key: '#{api_key}',
-          dsym_path: '#{dsym_path}',
+          dsym_paths: '#{dsym_path}',
           dry_run: 'true')
+        end").runner.execute(:test)
+      end
+
+      it "uploads multiple folders" do
+        api_key = 'mock-api-key'
+
+        dsym_paths = [
+          File.expand_path(File.join('./spec/fixtures/dSYM1/')).shellescape,
+          File.expand_path(File.join('./spec/fixtures/dSYM2/')).shellescape
+        ]
+        commands = dsym_paths.map do |path|
+          cmd = []
+          cmd << 'npx @datadog/datadog-ci dsyms upload'
+          cmd << path
+          cmd << '--dry-run'
+
+          cmd
+        end
+
+        commands.each do |cmd|
+          expect(Fastlane::Actions::UploadSymbolsToDatadogAction).to receive(:sh).with(cmd.join(" "))
+        end
+
+        Fastlane::FastFile.new.parse("lane :test do
+          upload_symbols_to_datadog(
+          api_key: '#{api_key}',
+          dsym_paths: #{dsym_paths},
+          dry_run: true)
         end").runner.execute(:test)
       end
 
@@ -51,7 +79,7 @@ describe Fastlane do
         expect(Fastlane::Actions::UploadSymbolsToDatadogAction).to receive(:sh).with(command.join(" "))
 
         Fastlane::FastFile.new.parse("lane :test do
-          Actions.lane_context[SharedValues::DSYM_PATHS] = '#{dsym_path}'
+          Actions.lane_context[SharedValues::DSYM_PATHS] = ['#{dsym_path}']
           upload_symbols_to_datadog(
           api_key: '#{api_key}',
           dry_run: 'true')

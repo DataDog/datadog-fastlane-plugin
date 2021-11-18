@@ -1,21 +1,25 @@
-# upload symbols from a zip file
-lane :upload_dsym_from_zip do
+# upload symbols from...
+lane :upload_dsyms do
   upload_symbols_to_datadog(
     api_key: "datadog-api-key",
-    dsym_path: "./assets/Themoji.dSYM.zip"
+    dsym_paths: [
+      'assets/Themoji.dSYM.zip', # ...a zip file...
+      'assets/Themoji/' # ...or from a folder
+      # NOTE: these examples are actually empty in order to keep the repo at minimum size
+    ]
   )
 end
 
-# upload symbols from a folder
-lane :upload_dsym do
-  upload_symbols_to_datadog(
-    api_key: "datadog-api-key",
-    dsym_path: "./assets/Themoji/"
+# download_dsyms action feeds dsym_paths automatically
+lane :upload_dsym_with_download_dsyms do
+  app_store_connect_api_key(
+    key_id: "key_id",
+    issuer_id: "issuer_id",
+    key_filepath: "key_file_path.p8"
   )
-end
-
-# with download_dsyms action which feeds dsym_path automatically
-lane :upload_dsym do
-  download_dsyms
+  download_dsyms(
+    app_identifier: 'app.id.entifier',
+    version: 'latest'
+  )
   upload_symbols_to_datadog(api_key: "datadog-api-key")
 end

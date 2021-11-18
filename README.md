@@ -16,7 +16,7 @@ Datadog plugin helps you uploading dSYM files to Datadog in order to symbolicate
 
 If you are sending crashes to Datadog, they will appear without symbol names. You also need to provide dSYM files to symbolicate your crash reports.
 
-When used with `download_dsyms` action, no need to specify `dsym_path` parameter.
+When used with `download_dsyms` action, no need to specify `dsym_paths` parameter.
 This action is a wrapper around `datadog-ci` npm package, you can look at [`datadog-ci` documentation](https://github.com/DataDog/datadog-ci/blob/master/src/commands/dsyms/README.md) for more info.
 
 ## Example
@@ -26,28 +26,22 @@ Check out the [example `Fastfile`](fastlane/Fastfile) to see how to use this plu
 You can use `DATADOG_API_KEY` environment variable instead of `api_key` parameter in `Fastfile`.
 
 ```ruby
-# upload symbols from a zip file
-lane :upload_dsym do
+# upload symbols from...
+lane :upload_dsyms do
   upload_symbols_to_datadog(
-    api_key: "datadog-api-key", 
-    dsym_path: "~/Downloads/appdSYMs.zip"
+    api_key: "datadog-api-key",
+    dsym_paths: [
+      "~/Downloads/appdSYMs.zip", # ...a zip file...
+      "~/some/folder/with/dsym/files/" # ...or from a folder
+    ]
   )
 end
 
-# upload symbols from a folder
-lane :upload_dsym do
-  upload_symbols_to_datadog(
-    api_key: "datadog-api-key", 
-    dsym_path: "~/some/folder/with/dsym/files/"
-  )
-end
-
-# with download_dsyms action which feeds dsym_path automatically
-lane :upload_dsym do
+# download_dsyms action feeds dsym_paths automatically
+lane :upload_dsym_with_download_dsyms do
   download_dsyms
   upload_symbols_to_datadog(api_key: "datadog-api-key")
 end
-
 ```
 
 ## Run tests for this plugin
