@@ -1,13 +1,21 @@
-lane :test_dsyms do
+# upload symbols from a zip file
+lane :upload_dsym_from_zip do
   upload_symbols_to_datadog(
-    api_key: "some-api-key",
-    dsym_path: "./assets/"
+    api_key: "datadog-api-key",
+    dsym_path: "./assets/Themoji.dSYM.zip"
   )
 end
 
-lane :test_zip do
+# upload symbols from a folder
+lane :upload_dsym do
   upload_symbols_to_datadog(
-    api_key: "some-api-key",
-    dsym_path: "./assets/Themoji.dSYM.zip"
+    api_key: "datadog-api-key",
+    dsym_path: "./assets/Themoji/"
   )
+end
+
+# with download_dsyms action which feeds dsym_path automatically
+lane :upload_dsym do
+  download_dsyms
+  upload_symbols_to_datadog(api_key: "datadog-api-key")
 end

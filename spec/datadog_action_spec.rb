@@ -1,10 +1,6 @@
 describe Fastlane do
   describe Fastlane::FastFile do
     describe "upload_symbols_to_datadog" do
-      # before :each do
-      #   allow(FastlaneCore::FastlaneFolder).to receive(:path).and_return(nil)
-      # end
-
       it "uploads dSYM files" do
         dsym_path = File.expand_path(File.join('./spec/fixtures/dSYM/')).shellescape
         api_key = 'mock-api-key'
