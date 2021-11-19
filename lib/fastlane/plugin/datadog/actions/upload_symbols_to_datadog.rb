@@ -50,7 +50,7 @@ module Fastlane
         [
           FastlaneCore::ConfigItem.new(key: :api_key,
           env_name: 'DATADOG_API_KEY',
-          description: "Datadog API Key for UploadSymbolsToDatadogAction",
+          description: "Datadog API Key for upload_symbols_to_datadog",
           verify_block: proc do |value|
             UI.user_error!("No API key for UploadSymbolsToDatadogAction given, pass using `api_key: 'api_key'`") unless value && !value.empty?
           end),
