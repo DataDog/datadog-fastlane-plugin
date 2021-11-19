@@ -52,7 +52,7 @@ module Fastlane
           env_name: 'DATADOG_API_KEY',
           description: "Datadog API Key for upload_symbols_to_datadog",
           verify_block: proc do |value|
-            UI.user_error!("No API key for UploadSymbolsToDatadogAction given, pass using `api_key: 'api_key'`") unless value && !value.empty?
+            UI.user_error!("No API key for upload_symbols_to_datadog given, pass using `api_key: 'api_key'`") unless value && !value.empty?
           end),
           FastlaneCore::ConfigItem.new(key: :dsym_paths,
           default_value: Actions.lane_context[SharedValues::DSYM_PATHS],
