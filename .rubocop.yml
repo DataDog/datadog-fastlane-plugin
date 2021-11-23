@@ -66,6 +66,7 @@ Require/MissingRequireStatement:
   - "**/Rakefile"
   - fastlane/**/*
   - supply/**/*
+  - lib/fastlane/plugin/datadog/actions/upload_symbols_to_datadog.rb
 Layout/FirstHashElementIndentation:
   Enabled: false
 Layout/HashAlignment:

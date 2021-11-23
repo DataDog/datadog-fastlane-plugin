@@ -1,0 +1,25 @@
+# upload symbols from...
+lane :upload_dsyms do
+  upload_symbols_to_datadog(
+    api_key: "datadog-api-key",
+    dsym_paths: [
+      'assets/Themoji.dSYM.zip', # ...a zip file...
+      'assets/Themoji/' # ...or from a folder
+      # NOTE: these examples are actually empty in order to keep the repo at minimum size
+    ]
+  )
+end
+
+# download_dsyms action feeds dsym_paths automatically
+lane :upload_dsym_with_download_dsyms do
+  app_store_connect_api_key(
+    key_id: "key_id",
+    issuer_id: "issuer_id",
+    key_filepath: "key_file_path.p8"
+  )
+  download_dsyms(
+    app_identifier: 'app.id.entifier',
+    version: 'latest'
+  )
+  upload_symbols_to_datadog(api_key: "datadog-api-key")
+end
