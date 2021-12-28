@@ -5,6 +5,7 @@ module Fastlane
     class UploadSymbolsToDatadogAction < Action
       def self.run(params)
         ENV['DATADOG_API_KEY'] = params[:api_key]
+        ENV['DATADOG_SITE'] = params[:site]
         dsym_paths = params[:dsym_paths] # get array of paths
         if dsym_paths.instance_of?(String) # if a string is passed, put it in an array
           dsym_paths = [dsym_paths]
@@ -48,20 +49,35 @@ module Fastlane
 
       def self.available_options
         [
-          FastlaneCore::ConfigItem.new(key: :api_key,
-          env_name: 'DATADOG_API_KEY',
-          description: "Datadog API Key for upload_symbols_to_datadog",
-          verify_block: proc do |value|
-            UI.user_error!("No API key for upload_symbols_to_datadog given, pass using `api_key: 'api_key'`") unless value && !value.empty?
-          end),
-          FastlaneCore::ConfigItem.new(key: :dsym_paths,
-          default_value: Actions.lane_context[SharedValues::DSYM_PATHS],
-          description: "An array of the folders and/or the zip files which contains the dSYM files",
-          type: Array),
-          FastlaneCore::ConfigItem.new(key: :dry_run,
-          description: "No upload to Datadog",
-          default_value: false,
-          is_string: false)
+          FastlaneCore::ConfigItem.new(
+            key: :api_key,
+            env_name: 'DATADOG_API_KEY',
+            description: "Datadog API Key for upload_symbols_to_datadog",
+            verify_block: proc do |value|
+              UI.user_error!("No API key for upload_symbols_to_datadog given, pass using `api_key: 'api_key'`") unless value && !value.empty?
+            end
+          ),
+          FastlaneCore::ConfigItem.new(
+            key: :site,
+            env_name: 'DATADOG_SITE',
+            default_value: 'datadoghq.com',
+            description: "Datadog site region. `datadoghq.com` by default, use `datadoghq.eu` for the EU",
+            verify_block: proc do |value|
+              UI.user_error!("`site` parameter should be 'datadoghq.com' or 'datadoghq.eu'") unless value == 'datadoghq.com' || value == 'datadoghq.eu'
+            end
+          ),
+          FastlaneCore::ConfigItem.new(
+            key: :dsym_paths,
+            default_value: Actions.lane_context[SharedValues::DSYM_PATHS],
+            description: "An array of the folders and/or the zip files which contains the dSYM files",
+            type: Array
+          ),
+          FastlaneCore::ConfigItem.new(
+            key: :dry_run,
+            description: "No upload to Datadog",
+            default_value: false,
+            is_string: false
+          )
         ]
       end
 
