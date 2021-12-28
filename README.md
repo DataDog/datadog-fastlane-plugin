@@ -23,7 +23,7 @@ This action is a wrapper around `datadog-ci` npm package, you can look at [`data
 
 Check out the [example `Fastfile`](fastlane/Fastfile) to see how to use this plugin. Try it by cloning the repo, running `fastlane install_plugins` and `bundle exec fastlane test`.
 
-You can use `DATADOG_API_KEY` environment variable instead of `api_key` parameter in `Fastfile`.
+You can use `DATADOG_API_KEY` environment variable instead of `api_key` parameter in `Fastfile` as well as the `DATADOG_SITE` instead of the `site` parameter.
 
 ```ruby
 # upload symbols from...
@@ -41,6 +41,15 @@ end
 lane :upload_dsym_with_download_dsyms do
   download_dsyms
   upload_symbols_to_datadog(api_key: "datadog-api-key")
+end
+
+# Upload to EU site
+lane :upload_dsym_with_download_dsyms do
+  download_dsyms
+  upload_symbols_to_datadog(
+    api_key: "datadog-api-key",
+    site: 'datadoghq.eu'
+  )
 end
 ```
 
