@@ -6,27 +6,7 @@ describe Fastlane do
         ENV['DATADOG_SITE'] = nil
       end
 
-      it "set env variables" do
-        dsym_path = File.expand_path(File.join('./spec/fixtures/dSYM/')).shellescape
-
-        expect(Fastlane::Actions::UploadSymbolsToDatadogAction).to receive(:sh)
-          .with("npx @datadog/datadog-ci dsyms upload #{dsym_path} --dry-run")
-
-        Fastlane::FastFile.new.parse(
-          "lane :test do
-            upload_symbols_to_datadog(
-              api_key: 'mock-api-key',
-              dsym_paths: '#{dsym_path}',
-              dry_run: true
-            )
-          end"
-        ).runner.execute(:test)
-
-        expect(ENV['DATADOG_API_KEY']).to eq("mock-api-key")
-        expect(ENV['DATADOG_SITE']).to eq("datadoghq.com")
-      end
-
-      it "set custom site env" do
+      it "set datadog-ci env variables" do
         dsym_path = File.expand_path(File.join('./spec/fixtures/dSYM/')).shellescape
 
         expect(Fastlane::Actions::UploadSymbolsToDatadogAction).to receive(:sh)
@@ -43,25 +23,8 @@ describe Fastlane do
           end"
         ).runner.execute(:test)
 
+        expect(ENV['DATADOG_API_KEY']).to eq("mock-api-key")
         expect(ENV['DATADOG_SITE']).to eq("datadoghq.eu")
-      end
-
-      it "fails with wrong site" do
-        expect do
-          Fastlane::FastFile.new.parse(
-            "lane :test do
-              upload_symbols_to_datadog(
-                api_key: 'mock-api-key',
-                site: 'wrong.site',
-                dsym_paths: 'some-path',
-                dry_run: true
-              )
-            end"
-          ).runner.execute(:test)
-        end.to raise_error(
-          FastlaneCore::Interface::FastlaneError,
-          "`site` parameter should be 'datadoghq.com' or 'datadoghq.eu'"
-        )
       end
 
       it "uploads dSYM files" do

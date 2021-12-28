@@ -60,11 +60,8 @@ module Fastlane
           FastlaneCore::ConfigItem.new(
             key: :site,
             env_name: 'DATADOG_SITE',
-            default_value: 'datadoghq.com',
-            description: "Datadog site region. `datadoghq.com` by default, use `datadoghq.eu` for the EU",
-            verify_block: proc do |value|
-              UI.user_error!("`site` parameter should be 'datadoghq.com' or 'datadoghq.eu'") unless value == 'datadoghq.com' || value == 'datadoghq.eu'
-            end
+            optional: true,
+            description: "Datadog site region. `datadoghq.com` by default, use `datadoghq.eu` for the EU"
           ),
           FastlaneCore::ConfigItem.new(
             key: :dsym_paths,
