@@ -18,7 +18,8 @@ describe Fastlane do
               api_key: 'mock-api-key',
               site: 'datadoghq.eu',
               dsym_paths: '#{dsym_path}',
-              dry_run: true
+              dry_run: true,
+              throw_errors: false
             )
           end"
         ).runner.execute(:test)
@@ -38,7 +39,8 @@ describe Fastlane do
             upload_symbols_to_datadog(
               api_key: 'mock-api-key',
               dsym_paths: '#{dsym_path}',
-              dry_run: true
+              dry_run: true,
+              throw_errors: false
             )
           end"
         ).runner.execute(:test)
@@ -55,7 +57,8 @@ describe Fastlane do
             upload_symbols_to_datadog(
               api_key: 'mock-api-key',
               dsym_paths: '#{dsym_path}',
-              dry_run: 'true'
+              dry_run: 'true',
+              throw_errors: false
             )
           end"
         ).runner.execute(:test)
@@ -80,7 +83,8 @@ describe Fastlane do
               upload_symbols_to_datadog(
                 api_key: 'mock-api-key',
                 dsym_paths: #{dsym_paths},
-                dry_run: true
+                dry_run: true,
+                throw_errors: false
               )
           end"
         ).runner.execute(:test)
@@ -97,7 +101,8 @@ describe Fastlane do
             Actions.lane_context[SharedValues::DSYM_PATHS] = ['#{dsym_path}']
             upload_symbols_to_datadog(
               api_key: 'mock-api-key',
-              dry_run: 'true'
+              dry_run: true,
+              throw_errors: false
             )
           end"
         ).runner.execute(:test)
