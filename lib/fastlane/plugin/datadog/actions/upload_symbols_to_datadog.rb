@@ -11,18 +11,24 @@ module Fastlane
           dsym_paths = [dsym_paths]
         end
 
-        error = ''
+        error = []
         is_dry_run = params[:dry_run]
+        throw_errors = params[:throw_errors]
         dsym_paths.each do |path|
-          upload_path(path, is_dry_run)
-        rescue FastlaneShellError => e
-          error << e.to_s
+          upload_path(path, is_dry_run, throw_errors)
+        rescue StandardError => e
+          error << e.message
         end
 
-        raise error unless error.empty?
+        raise error.join("\n") unless error.empty?
       end
 
-      def self.upload_path(path, is_dry_run)
+      def self.upload_path(path, is_dry_run, throw_errors)
+        unless File.exist?(path)
+          UI.error("dSYM path does not exist: #{path}")
+          UI.user_error!("dSYM path does not exist: #{path}") if throw_errors
+        end
+
         cmd = 'npx @datadog/datadog-ci dsyms upload '
         cmd += path
         if is_dry_run
@@ -73,7 +79,13 @@ module Fastlane
             key: :dry_run,
             description: "No upload to Datadog",
             default_value: false,
-            is_string: false
+            type: Boolean
+          ),
+          FastlaneCore::ConfigItem.new(
+            key: :throw_errors,
+            description: "Throw errors instead of logging them",
+            default_value: false,
+            type: Boolean
           )
         ]
       end
