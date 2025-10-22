@@ -10,6 +10,8 @@ This project is a [_fastlane_](https://github.com/fastlane/fastlane) plugin. To 
 fastlane add_plugin datadog
 ```
 
+> ⚠️ Node.js is required for this plugin. Make sure it is installed and available in your system `PATH`.
+
 ## About datadog
 
 Datadog plugin helps you uploading dSYM files to Datadog in order to symbolicate crash reports.
