@@ -24,18 +24,19 @@ module Fastlane
       end
 
       def self.upload_path(path, is_dry_run, throw_errors)
+        # Expand `~` and relative paths in Ruby: since the command is passed to
+        # `sh` as an argv array (no shell), the shell no longer expands them.
+        path = File.expand_path(path)
+
         unless File.exist?(path)
           UI.error("dSYM path does not exist: #{path}")
           UI.user_error!("dSYM path does not exist: #{path}") if throw_errors
         end
 
-        cmd = 'npx @datadog/datadog-ci dsyms upload '
-        cmd += path
-        if is_dry_run
-          cmd += ' --dry-run'
-        end
+        cmd = ['npx', '@datadog/datadog-ci', 'dsyms', 'upload', path]
+        cmd << '--dry-run' if is_dry_run
 
-        sh(cmd)
+        sh(*cmd)
       end
 
       #####################################################
