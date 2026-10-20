@@ -140,6 +140,32 @@ describe Fastlane do
           end"
         ).runner.execute(:test)
       end
+
+      it "fails with a clear error when lane context has no dsym_paths" do
+        Fastlane::Actions.lane_context.delete(Fastlane::Actions::SharedValues::DSYM_PATHS)
+
+        expect(Fastlane::Actions::UploadSymbolsToDatadogAction).not_to receive(:sh)
+
+        expect do
+          Fastlane::FastFile.new.parse(
+            "lane :test do
+              upload_symbols_to_datadog(api_key: 'mock-api-key')
+            end"
+          ).runner.execute(:test)
+        end.to raise_error(FastlaneCore::Interface::FastlaneError, /No dSYM paths to upload/)
+      end
+
+      it "fails with a clear error when dsym_paths is empty" do
+        expect(Fastlane::Actions::UploadSymbolsToDatadogAction).not_to receive(:sh)
+
+        expect do
+          Fastlane::FastFile.new.parse(
+            "lane :test do
+              upload_symbols_to_datadog(api_key: 'mock-api-key', dsym_paths: [])
+            end"
+          ).runner.execute(:test)
+        end.to raise_error(FastlaneCore::Interface::FastlaneError, /No dSYM paths to upload/)
+      end
     end
   end
 end

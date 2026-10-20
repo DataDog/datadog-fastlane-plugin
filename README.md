@@ -18,7 +18,7 @@ Datadog plugin helps you uploading dSYM files to Datadog in order to symbolicate
 
 If you are sending crashes to Datadog, they will appear without symbol names. You also need to provide dSYM files to symbolicate your crash reports.
 
-When used with `download_dsyms` action, no need to specify `dsym_paths` parameter.
+When used with `download_dsyms` action, no need to specify `dsym_paths` parameter. If `download_dsyms` doesn't find any dSYMs, the upload fails; to skip it instead, use `upload_symbols_to_datadog(...) if lane_context[SharedValues::DSYM_PATHS]`.
 This action is a wrapper around `datadog-ci` npm package, you can look at [`datadog-ci` documentation](https://github.com/DataDog/datadog-ci/blob/master/src/commands/dsyms/README.md) for more info.
 
 ## Example
