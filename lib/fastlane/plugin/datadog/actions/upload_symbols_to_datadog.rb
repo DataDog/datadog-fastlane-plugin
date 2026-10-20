@@ -11,6 +11,10 @@ module Fastlane
           dsym_paths = [dsym_paths]
         end
 
+        if dsym_paths.nil? || dsym_paths.empty?
+          UI.user_error!("No dSYM paths to upload. If you used `download_dsyms`, it did not find any dSYMs for this build. Otherwise, pass `dsym_paths`.")
+        end
+
         error = []
         is_dry_run = params[:dry_run]
         throw_errors = params[:throw_errors]
@@ -74,6 +78,7 @@ module Fastlane
             key: :dsym_paths,
             default_value: Actions.lane_context[SharedValues::DSYM_PATHS],
             description: "An array of the folders and/or the zip files which contains the dSYM files",
+            optional: true,
             type: Array
           ),
           FastlaneCore::ConfigItem.new(
