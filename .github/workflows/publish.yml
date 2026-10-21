@@ -51,7 +51,12 @@ jobs:
         uses: ruby/setup-ruby@824c0e29fdfc7d689c191c27acc969d2d04b7dd8 # v1.331.0
         with:
           ruby-version: 3.2
-          bundler-cache: true
+
+      # Install gems into the Ruby installation instead of vendor/bundle (bundler-cache).
+      # release-gem preloads a RubyGems patch before Bundler starts, which activates
+      # default gems such as timeout; they must resolve to the same versions as the bundle.
+      - name: Install dependencies
+        run: bundle install
 
       - name: Verify version format
         run: |
